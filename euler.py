@@ -1,18 +1,33 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def f(t, y):
+
+
+#-----------FONCTION------------
+
+def Fonction_ex(y, t):
     return -2*y + t**2
 
-def g(k ,y):
+#Q2
+
+def Fonction_Q2(k ,y):
     return -k*y
 
-def h(t, theta, omega, g, l):
+def Fonction_Q2_Ana(k,t):
+    return 
+
+#Q3
+
+def Fonction_Q3(t, theta, omega, g, l):
     dtheta_dt = omega
     domega_dt = - (g / l) * np.sin(theta)
     return dtheta_dt, domega_dt
 
-def euler_method(f, theta0, omega0, t0, tf, h, g, l):
+#--------------------------------
+
+#------------METHODE-------------
+#EULER
+def euler_method2(f, theta0, omega0, t0, tf, h, g, l):
     t_values = np.arange(t0, tf + h, h)
     theta_values = np.zeros(len(t_values))
     omega_values = np.zeros(len(t_values))
@@ -32,51 +47,58 @@ def euler_method(f, theta0, omega0, t0, tf, h, g, l):
 
     return t_values, theta_values, omega_values
 
+def euler_method_simple(f,y0,t):
+    y = np.zeros(len(t))
+    y[0] = y0
+    for i in range(0,len(t)-1):
+        y[i+1] = y[i] + f(y[i],t[i])*(t[i+1]-t[i])
+    return y
 
-def runge_kutta_4(f, y0, t0, tf, h):
-    t_values = np.arange(t0, tf + h, h)  
-    y_values = np.zeros(len(t_values))  
+#RANGE KUTTA ORDRE 4
+def RK_method(f,y0,t):
+    y = np.zeros(len(t))
+    y[0] = y0
+    for i in range(0,len(t)-1):
+        h = t[i+1]-t[i]
+        F1 = h*f(y[i],t[i])
+        F2 = h*f((y[i]+F1/2),(t[i]+h/2))
+        F3 = h*f((y[i]+F2/2),(t[i]+h/2))
+        F4 = h*f((y[i]+F3),(t[i]+h))
+        y[i+1] = y[i] + 1/6*(F1 + 2*F2 + 2*F3 + F4)
+    return y
 
-    y_values[0] = y0
-    t = t0
-    y = y0
+#--------------------------------
 
-    #runge kutta ordre 4
-    for i in range(1, len(t_values)):
-        k1 = f(t, y)
-        k2 = f(t + h/2, y + h/2 * k1)
-        k3 = f(t + h/2, y + h/2 * k2)
-        k4 = f(t + h, y + h * k3)
-        y = y + (h/6) * (k1 + 2*k2 + 2*k3 + k4)
-        t = t_values[i]
-        y_values[i] = y
-
-    return t_values, y_values
-
-y0 = 1    
-t0 = 0    
-tf = 2    
-h = 0.1   
-k=1
+#--------------INIT--------------
 
 #Euler
+    #Init
+depart=0
+arret=5
+y0 = 1
+points = 210
+t = np.linspace(depart,arret,points)
 
-t_values, y_values = euler_method(f, y0, t0, tf, h)
-plt.plot(t_values, y_values, label='euler')
+    #Analytique
+t_ana = np.linspace(depart,arret,points)
+y_ana = np.exp(-y0*t_ana)
+
+    #Plot
+plt.plot(t,euler_method_simple(Fonction_Q2,y0,t),'b-', label = "Euler")
+plt.plot(t_ana,y_ana,'ro',label = "Analytical Solution")
+plt.plot(t,RK_method(Fonction_Q2,y0,t),'k-', label = "Runge Kutta")
 plt.xlabel('t')
 plt.ylabel('y')
 plt.legend()
-plt.title('resultat')
+plt.title('resultat Euler simple')
 plt.grid(True)
 plt.show()
 
-t_values, y_values = runge_kutta_4(f, y0, t0, tf, h)
+#RK4
+y_RK = RK_method(Fonction_Q2,y0,t)
 
-#Runge Kutta
-plt.plot(t_values, y_values, label='Runge-Kutta ordre 4')
-plt.xlabel('t')
-plt.ylabel('y')
-plt.legend()
-plt.title('Résolution de l\'EDO par la méthode de Runge-Kutta d\'ordre 4')
-plt.grid(True)
-plt.show()
+
+
+
+
+
