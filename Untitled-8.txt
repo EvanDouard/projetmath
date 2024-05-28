@@ -1,0 +1,15 @@
+http://desaintar.free.fr/python/cours/euler.pdf
+
+https://fr.wikipedia.org/wiki/M%C3%A9thodes_de_Runge-Kutta
+https://femto-physique.fr/analyse-numerique/runge-kutta.php
+
+2) Expliquer la théorie et la conceptualisation mathématique , détailler l'algorithme et fournir une estimati onde l'erreur (sans démonstration formelles)
+des deux algorithmes 
+
+3) Resoudre le problème de cauchy calculer des approximations numériques
+analyser les différences
+
+4) Utiliser Euler et Runge Kutta ordre 4 sur le ouveau problème de cauchy pour calculer les approximations numériques de la solution
+analyser les différences
+
+5) rapport de 10pages max réponses des 3 partie avec introduction et conceptualisation
